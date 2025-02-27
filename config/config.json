@@ -4,11 +4,7 @@
     "owner_ids": [],
     "log_level": "INFO",
     "status": "online",
-    "activity_type": "playing",
-    "activity_name": "with commands",
-    "modules": {
-        "enabled": ["admin"],
-        "disabled": []
-    }
+    "activity_type": "Playing",
+    "activity_name": " Testing"
 }
  

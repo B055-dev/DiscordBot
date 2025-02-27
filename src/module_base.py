@@ -7,6 +7,7 @@ from abc import abstractmethod
 from typing import List, Optional
 
 import discord
+from discord import app_commands
 from discord.ext import commands
 
 logger = logging.getLogger("ModuleBase")
@@ -16,9 +17,10 @@ class ModuleBase(commands.Cog):
     
     def __init__(self, bot):
         """Initialize the module."""
+        super().__init__()
         self.bot = bot
         logger.info(f"Initializing module: {self.id} ({self.name})")
-    
+
     @property
     @abstractmethod
     def id(self) -> str:
@@ -41,21 +43,7 @@ class ModuleBase(commands.Cog):
     def emoji(self) -> str:
         """Get the module emoji."""
         return "🧩"
-    
-    @property
-    def enabled(self) -> bool:
-        """Check if the module is enabled."""
-        enabled_modules = self.bot.config.get("modules.enabled", [])
-        disabled_modules = self.bot.config.get("modules.disabled", [])
-        
-        if self.id in disabled_modules:
-            return False
-        
-        if not enabled_modules or self.id in enabled_modules:
-            return True
-        
-        return False
-    
+
     async def cog_load(self):
         """Called when the module is loaded."""
         logger.info(f"Module loaded: {self.id} ({self.name})")
@@ -63,7 +51,3 @@ class ModuleBase(commands.Cog):
     async def cog_unload(self):
         """Called when the module is unloaded."""
         logger.info(f"Module unloaded: {self.id} ({self.name})")
-    
-    async def cog_check(self, ctx):
-        """Check if the module is enabled before executing commands."""
-        return self.enabled
